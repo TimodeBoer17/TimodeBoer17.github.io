@@ -19,13 +19,13 @@ const stages = [
     next: 'Fiets naar de koffiestop'
   },
   {
-    name: 'Koffie op de dijk', place: 'Het bankje bij het gemaal', icon: 'bike', teaser: 'Leg Wessel de handschoen voor.',
+    name: 'Koffie op de dijk', place: 'Het bankje bij het gemaal', icon: 'bike', teaser: 'Leg Wessel de handschoen voor.', photo: 'koffiestop',
     story: [
       'Veerle bergt haar telefoon op. Marianne en oma blijven bij de taart. Buiten houdt Imme de fietsen overeind terwijl Casper de map in zijn tas steekt. Noa neemt de kop tegen de wind in. Een halfuur later ziet Marc het bankje dat Casper op de kaart had aangekruist. Guus houdt twee bekertjes vast terwijl Wessel koffie inschenkt. Marc legt de handschoen op het bankje. Wessel past hem. ‘Waar heb jij die nou gevonden?’',
       'Marc vertelt wat er onder de kast lag en noemt de twee tijden. Guus zet zijn bekertjes neer. ‘Dan moet je even naar mijn telefoon kijken.’'
     ],
     clues: [
-      ['Het filmpje op Guus’ telefoon', 'Om 09.08 uur begon over het fietspad bij het gemaal een kudde schapen te trekken. Guus heeft het hele oponthoud gefilmd. Marc schuift door de opname: vooraan, halverwege en als het laatste lam om 09.18 uur langsloopt, staat Wessel tegen hetzelfde hek. Het is één doorlopende opname. Oma woont een halfuur fietsen van hier.'],
+      ['Het filmpje op Guus’ telefoon', 'Om 09.08 uur begon over het fietspad bij het gemaal een kudde schapen te trekken. Guus heeft het hele oponthoud gefilmd. Marc schuift door de opname: vooraan, halverwege en als het laatste lam om 09.18 uur langsloopt, staat Wessel tegen hetzelfde hek. Het is één doorlopende opname. Oma woont een halfuur fietsen van hier.', 'opname'],
       ['Wie heeft de koffie ingepakt?', 'Wessel trekt de handschoen uit. ‘Ik had vanmorgen bij vertrek alleen de rechter. Vraag maar aan Imme. Die kwam de tweede thermoskan brengen.’ Imme schenkt Casper bij. ‘Ook de koude kant heeft recht op warme koffie’, zegt ze. ‘Alleen je eerste kop staat nog bij oma op de kast.’'],
       ['Wat Imme bij oma zag', 'Casper, de ambtenaar van de familie, houdt zijn tweede bekertje halverwege zijn mond stil. ‘Op de kast? Ik stond tot het vertrek buiten met de route.’ Imme schudt haar hoofd. ‘Ik zocht je juist buiten. Toen ik binnenkwam, stond je bij de kast met die blauwe map onder je arm. Je vroeg of ik je koffie op de kast wilde zetten.’ Marc vraagt hoe laat dat was. Imme opent het bericht dat ze op de drempel naar Guus stuurde: ‘We vertrekken zo.’ 09.13 uur.']
     ],
@@ -36,7 +36,7 @@ const stages = [
     next: 'Rijd met Casper terug naar oma'
   },
   {
-    name: 'Terug bij oma', place: 'De keukentafel', icon: 'folder', teaser: 'Leg de snipper naast de inhoud van de map.',
+    name: 'Terug bij oma', place: 'De keukentafel', icon: 'folder', teaser: 'Leg de snipper naast de inhoud van de map.', photo: 'keukentafel',
     story: [
       'Voor ze weer opstappen, telt Noa de liefhebbers voor een laatste lus langs zee. Iedereen steekt een hand op, tot Marianne belt dat de taart klaarstaat. Nog nooit was de stemming zo snel omgeslagen. Bij oma schuift Sam met zijn hiel twee stoelen opzij om de fietsen door de gang te laten. Op de taartstandaard zakt een aardbei langzaam naar links. Marianne heeft een omgekeerd schoteltje over de snipper gezet, uit de buurt van Boelie. Casper legt zijn map op tafel. Marc schuift de taart een stukje opzij en maakt plaats voor de routekaart.'
     ],
@@ -65,8 +65,19 @@ function home(){
 }
 function destination(){return progress===4?'slot':progress===3?'rapport':'etappe-'+(progress+1)}
 function wrap(body){return `<div class="play"><div class="tools"><a href="#start" class="quiet">Dossieroverzicht</a><span class="micro">ZAAK DD–050 · ${Math.min(progress,3)}/3 ETAPPES</span></div>${body}</div>`}
+const photos = {
+  koffiestop: ['Twee fietsen en een bankje met koffie en een zwarte handschoen op de Zeeuwse dijk.', 'Het bankje bij het gemaal'],
+  keukentafel: ['Naast de aardbeientaart liggen Caspers gesloten blauwe map en een omgekeerd schoteltje.', 'Weer bij oma aan tafel'],
+  'bij-het-gemaal': ['Wessel leunt tegen het hek terwijl de schapen voor het gemaal het fietspad oversteken.', 'Een stilstaand beeld uit Guus’ opname'],
+  'aardbei-in-de-koffie': ['Een aardbei drijft in Caspers kop koffie. Achter het kopje wordt de taart uitgedeeld.', 'Caspers tweede portie fruit']
+};
+function scenePhoto(name) {
+  const [description, caption] = photos[name];
+  return `<figure class="scene-photo"><img src="beelden/${name}.jpg" width="508" height="508" loading="lazy" alt="${description}"><figcaption>${caption}</figcaption></figure>`;
+}
 const exhibits = {
-  kaart: `<figure class="card-front"><img src="boelie.jpg" width="1536" height="1024" loading="lazy" alt="Oma’s oranje kater met een eenhoornkaartje aan een rode strik."></figure>
+  opname: scenePhoto('bij-het-gemaal'),
+  kaart: `<figure class="card-front"><img src="boelie.jpg" width="508" height="508" loading="lazy" alt="Oma’s oranje kater met een eenhoornkaartje aan een rode strik."></figure>
     <details><summary>Draai het kaartje om</summary><blockquote class="birthday-note">Tijd voor een nieuwe surprise! 🙃</blockquote><p>Marc legt het kaartje naast de losse snavel.</p></details>`,
   snippers: `<figure class="form-fragment" aria-label="Het blauwe voorstel met de koffiekring over de scheurrand"><strong>Kerstspel</strong><span>Voorstel</span><svg aria-hidden="true" viewBox="0 0 240 120"><ellipse cx="160" cy="70" rx="45" ry="34" fill="none" stroke="#966332" opacity=".55" stroke-width="7"/><path d="M106 120l16-14 3-10 15-7 9-14 10-3 7-12 14-4 8-12 14-5 10-12 20-6 8-8" fill="none" stroke="#415866" stroke-width="1.6"/></svg></figure>`
 };
@@ -75,7 +86,7 @@ function evidence(s) {
 }
 function stage(i){
   const s=stages[i];
-  return wrap(`<p class="micro" style="margin-top:24px">ETAPPE 0${i+1} · ${s.place.toUpperCase()}</p><h1>${s.name}</h1><div class="scene">${s.story.map(paragraph => `<p>${paragraph}</p>`).join('')}</div><section class="sheet"><h2>Getuigen &amp; bewijsstukken</h2><p>Open de verklaringen en vergelijk de details.</p>${evidence(s)}</section><section class="sheet"><h2>${s.question}</h2>${progress>i?`<p>✓ ${s.feedback}</p><a class="btn" href="#${i===2?'rapport':'etappe-'+(i+2)}">${s.next}</a>`:s.answers.map((a,j)=>`<button class="choice" data-answer="${j}">${a}</button>`).join('')+'<p class="notice" role="status"></p><details><summary>Geef me een hint</summary><p>'+s.hint+'</p></details>'}</section>`);
+  return wrap(`<p class="micro" style="margin-top:24px">ETAPPE 0${i+1} · ${s.place.toUpperCase()}</p><h1>${s.name}</h1><div class="scene">${s.story.map((paragraph, index) => `<p>${paragraph}</p>${index === 0 && s.photo ? scenePhoto(s.photo) : ''}`).join('')}</div><section class="sheet"><h2>Getuigen &amp; bewijsstukken</h2><p>Open de verklaringen en vergelijk de details.</p>${evidence(s)}</section><section class="sheet"><h2>${s.question}</h2>${progress>i?`<p>✓ ${s.feedback}</p><a class="btn" href="#${i===2?'rapport':'etappe-'+(i+2)}">${s.next}</a>`:s.answers.map((a,j)=>`<button class="choice" data-answer="${j}">${a}</button>`).join('')+'<p class="notice" role="status"></p><details><summary>Geef me een hint</summary><p>'+s.hint+'</p></details>'}</section>`);
 }
 const fields=[
   ['Wie heeft Donald toegetakeld?',['Noa','Wessel','Guus','Casper','Max','Sam','Veerle','Stijn','Timo'],3],
@@ -83,7 +94,7 @@ const fields=[
   ['Waaraan herkent Marc de tekst op Boelies kaartje?',['De zin staat onder Veerles foto','De zin staat op de fietsroute bij de koffiestop','In Caspers voorstel staat dezelfde zin met dezelfde omgekeerde smiley'],2]
 ];
 function report(){return wrap(`<h1>Jouw eindrapport</h1><p>Marianne legt het taartmes naast Marcs bord. Iedereen zit. Zelfs Boelie heeft een stoel. ‘Eerst maar eens horen waarom mijn eend in twee stukken op tafel ligt’, zegt oma.</p><form class="sheet" id="report">${fields.map(([q,opts],i)=>`<label class="field">${q}<select required name="q${i}"><option value="">Maak je keuze</option>${opts.map((o,j)=>`<option value="${j}">${o}</option>`).join('')}</select></label>`).join('')}<button class="btn">Dien je beschuldiging in</button><p role="status" class="notice"></p></form><section class="sheet"><h2>Je onderzoeksdossier</h2><p>Lees een bewijsstuk terug.</p>${stages.map(s=>evidence(s)).join('')}</section>`)}
-function ending(){return wrap(`<h1>Zaak gesloten.</h1><p>Casper wrijft met zijn duim over het rechte pootje van de splitpen. ‘De vorige keer heeft dat beest elf maanden bij mij in de meterkast gestaan. Elke keer als ik de meter moest opnemen, keek ik in die snavel. Met kerst mag iemand best eens iets nieuws bedenken.’</p><section class="sheet"><h2>De familiefoto</h2><p>‘En dat kaartje?’ vraagt Marc. Casper knikt. ‘Dat heb ik gisteravond geprint.’ Bij oma strikte hij het aan Boelies halsband. Met Wessels handschoen uit de gang pakte hij Donald beet om de kop los te maken. Toen hij Imme in de gang hoorde, schoof hij Donald en de handschoen onder de kast. De hoek van zijn voorstel bleef onder de kastpoot steken.</p><p>Marc geeft hem de eend en de splitpen. ‘Kijk dan eens wat je op de mijne allemaal mag repareren.’</p><p>Stijn drukt de zelfontspanner in. Max en Sam knijpen zich samen op één stoel, Marianne probeert de taart recht te houden en Casper zit met Donald op schoot. Bij de klik landt de aardbei precies in zijn koffie. Oma bekijkt de foto. ‘Afblijven, Timo. Deze wil ik hebben.’</p></section><section class="sheet end"><h2>Gefeliciteerd, Marc.</h2><p>Op de achterkant van de afdruk schrijft oma: ‘Vijftig jaar. Iedereen erop.’</p></section><button class="quiet" data-reset>Opnieuw spelen</button>`)}
+function ending(){return wrap(`<h1>Zaak gesloten.</h1><p>Casper wrijft met zijn duim over het rechte pootje van de splitpen. ‘De vorige keer heeft dat beest elf maanden bij mij in de meterkast gestaan. Elke keer als ik de meter moest opnemen, keek ik in die snavel. Met kerst mag iemand best eens iets nieuws bedenken.’</p><section class="sheet"><h2>De familiefoto</h2><p>‘En dat kaartje?’ vraagt Marc. Casper knikt. ‘Dat heb ik gisteravond geprint.’ Bij oma strikte hij het aan Boelies halsband. Met Wessels handschoen uit de gang pakte hij Donald beet om de kop los te maken. Toen hij Imme in de gang hoorde, schoof hij Donald en de handschoen onder de kast. De hoek van zijn voorstel bleef onder de kastpoot steken.</p><p>Marc geeft hem de eend en de splitpen. ‘Kijk dan eens wat je op de mijne allemaal mag repareren.’</p><p>Stijn drukt de zelfontspanner in. Max en Sam knijpen zich samen op één stoel, Marianne probeert de taart recht te houden en Casper zit met Donald op schoot. Bij de klik landt de aardbei precies in zijn koffie. Oma bekijkt de foto. ‘Afblijven, Timo. Deze wil ik hebben.’</p>${scenePhoto('aardbei-in-de-koffie')}</section><section class="sheet end"><h2>Gefeliciteerd, Marc.</h2><p>Op de achterkant van de afdruk schrijft oma: ‘Vijftig jaar. Iedereen erop.’</p></section><button class="quiet" data-reset>Opnieuw spelen</button>`)}
 function current(){return location.hash.slice(1)}
 function render(){
   const route=current(), match=/^etappe-([1-3])$/.exec(route);
