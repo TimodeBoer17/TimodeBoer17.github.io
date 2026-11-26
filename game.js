@@ -1,14 +1,14 @@
 const stages = [
   {
     name: 'Bij oma Ans', place: 'De woonkamer', icon: 'search', teaser: 'Bekijk de plaats delict.',
-    story: 'Om 09.16 uur gilt Marianne. Onder de kast ligt de Donald Duck-surprise die al jaren met kerst van eigenaar wisselt. Zijn kartonnen kop is los. Naast de snavel ligt een briefje, ondertekend met ‘Kwarkie’. Negen fietshelmen draaien tegelijk richting Marc. Oma zet de mosselen terug in de koelkast. Dit kan wel even duren.',
+    story: 'Om 09.16 uur zet Marianne haar helm op de vensterbank. Er kraakt iets onder haar schoen. Een gele snavel. Onder de kast ligt de rest van Donald, de kartonnen eend die elke kerst weer in hetzelfde cadeaupapier opduikt. Oma bukt zich met moeite om te kijken. Boelie wurmt zich tussen haar pantoffels door en gaat pal voor de kast zitten. Aan de halsband van haar dikke oranje kater bungelt een kaartje.',
     clues: [
-      ['Het verjaardagsbriefje', 'Op de voorkant danst de eenhoorn die Marc bij verjaardagen in de familieapp zet. Achterop staat in blokletters ‘Definitief buiten gebruik gesteld. Groet, Kwarkie.’ Marc stuurt normaal een gifje. Op papier danst er weinig.'],
-      ['De vondsten onder de kast', 'Een zwart linkerhandschoentje, een driehoekje blauw papier en een leeg kwarkbakje. Oma herkent de deuk in het deksel. Gisteravond heeft ze dit bakje zelf bij het plastic gegooid. De bak staat open in de gang.'],
+      ['Het kaartje aan Boelies halsband', 'Marc steekt een vinger onder het kaartje. Boelie duwt zijn kin omhoog voor een kriebel. Met zijn andere hand trekt Marc het rode strikje los.', 'kaart'],
+      ['De vondsten onder de kast', 'Marc veegt met een liniaal onder de kast. Eerst komt er een zwarte linkerhandschoen tevoorschijn, dan een driehoekje blauw papier. Een leeg kwarkbakje rolt tot tegen oma’s pantoffel. Ze drukt haar duim in de deuk in het deksel. ‘Dat heb ik gisteravond bij het plastic gegooid.’ In de gang staat het deksel van de afvalbak nog open.'],
       ['Verklaring van Ambriel', '‘Die handschoen is van Wessel. Hij lag gisteravond al op het tafeltje in de gang. Ik heb de rechter nog naar hem gegooid. Mis, trouwens.’'],
       ['Het eerste alibi', 'Casper ritst zijn blauwe routemap dicht. ‘Van negen tot kwart over negen stond ik buiten met de route.’ Marianne heeft vanuit het keukenraam alleen Noa onafgebroken gezien, vanaf 09.08 uur, met een fietspomp in haar hand.']
     ],
-    question: 'Welke conclusie mag je nu al trekken?', answers: ['Wessel moet vanochtend bij de kast zijn geweest.', 'Iemand kon de spullen neerleggen zonder dat Marc of Wessel erbij was.', 'De afzender van het gifje heeft het briefje geprint.'], correct: 1,
+    question: 'Welke conclusie mag je nu al trekken?', answers: ['Wessel moet vanochtend bij de kast zijn geweest.', 'Iemand kon de spullen neerleggen zonder dat Marc of Wessel erbij was.', 'De handtekening op het kaartje bewijst dat Marc het schreef.'], correct: 1,
     hint: 'Ga bij elk voorwerp na wie er gisteren bij kon.', feedback: 'De familieapp, de open afvalbak en de gang waren voor iedereen bereikbaar.'
   },
   {
@@ -31,7 +31,7 @@ const stages = [
       ['Timo’s printeroverzicht', '08.41 — recept voor mosselen. 08.56 — de route. 09.02 — een eenhoorn. 09.03 — formulier DD-050. De laatste drie opdrachten kwamen van één apparaat. Het logboek vermeldt geen eigenaar.'],
       ['Het blauwe vel uit de routemap', 'Formulier DD-050. Object: kerstsurprise. Reden: ‘Structurele herhaling, voor het zoveelste jaar op rij.’ Maatregel: definitief uit de kerstviering nemen. De rechteronderhoek ontbreekt, dwars door een bruine koffiekring. ‘Een goedgekeurd concept’, zegt Casper.'],
       ['Wat Noa werkelijk schreef', 'In de familieapp vroeg Noa om een ander kerstspel. In haar volgende bericht staat: ‘Zet Donald gezellig bij oma op de kast.’ Casper antwoordde alleen op het eerste bericht: ‘Eindelijk staat dit op de agenda.’'],
-      ['Oma’s envelop', 'Onder de kast vond oma nóg een snipper. Samen met Marcs driehoekje past hij precies in de scheur van DD-050. Zelfs de koffiekring loopt door. Op de achterkant staat: ‘09.14 uitgevoerd. Restkarton na vertrek afvoeren. Kwarkie als afzender vermeld.’']
+      ['Oma’s envelop', 'Oma schudt een tweede snipper uit een envelop. Marc draait zijn driehoekje een kwartslag en schuift de punt tegen de scheur. Oma legt haar snipper in het laatste gat. De bruine boog op het vel loopt over beide stukjes door.', 'snippers']
     ],
     question: 'Wat verbindt de aanvraag met de uitvoering bij de kast?', answers: ['De bijpassende scheurrand, koffiekring en registratie op de achterkant.', 'Het woord ‘route’ in de printergeschiedenis.', 'De kleur van de map en het feit dat Casper koffie drinkt.'], correct: 0,
     hint: 'Een kleur komt vaker voor. Welk spoor loopt letterlijk van het ene bewijsstuk in het andere?', feedback: 'De snippers komen van het formulier in Caspers map. De registratie op de ontbrekende hoek beschrijft wat er bij de kast gebeurde.'
@@ -49,7 +49,23 @@ function home(){
 }
 function destination(){return progress===4?'slot':progress===3?'rapport':'etappe-'+(progress+1)}
 function wrap(body){return `<div class="play"><div class="tools"><a href="#start" class="quiet">Dossieroverzicht</a><span class="micro">ZAAK DD–050 · ${Math.min(progress,3)}/3 ETAPPES</span></div>${body}</div>`}
-function evidence(s){return s.clues.map(([name,text])=>`<details><summary>${name}</summary><p>${text}</p></details>`).join('')}
+function birthdayCard() {
+  return `<figure class="card-front"><img src="boelie.jpg" width="1536" height="1024" loading="lazy" alt="Boelie op het vloerkleed bij oma. Aan een rood strikje hangt een kaartje met een eenhoorn onder een regenboogwolk vol confetti."></figure>
+    <details class="card-reverse"><summary>Draai het kaartje om</summary>
+      <blockquote class="birthday-note">Definitief buiten gebruik gesteld.<br><br>Groet,<br>Kwarkie.</blockquote>
+      <p>Veerle leest over Marcs schouder mee. Bij de laatste regel kijkt ze op. ‘Kwarkie?’ Oma schuift haar bril op haar neus. ‘Die eenhoorn heb ik ook nog ergens.’ Ze pakt haar telefoon en scrolt terug naar haar verjaardag in de familieapp.</p>
+    </details>`;
+}
+function tornForm() {
+  return `<figure class="form-fragment" aria-label="Detail van het herstelde formulier met een koffiekring over de twee scheurranden">
+    <strong>DD-050</strong><span>Kerstsurprise</span>
+    <svg aria-hidden="true" viewBox="0 0 240 120"><ellipse cx="156" cy="70" rx="50" ry="36" fill="none" stroke="#966332" stroke-opacity=".53" stroke-width="7"/><path d="M106 120l12-14 3-11 16-7 7-13 9-3 7-12 13-2 7-14 12-4 8-10 16-5 8-11 16-5M155 72l8 7 1 9 14 7 1 8 18 17" fill="none" stroke="#415866" stroke-width="1.6"/></svg>
+  </figure><details><summary>Bekijk de achterkant van de snippers</summary><p>In kleine letters staat er: ‘09.14 uitgevoerd. Restkarton na vertrek afvoeren. Kwarkie als afzender vermeld.’</p></details>`;
+}
+const exhibits = { kaart: birthdayCard, snippers: tornForm };
+function evidence(s) {
+  return s.clues.map(([name, text, item]) => `<details><summary>${name}</summary><p>${text}</p>${item ? exhibits[item]() : ''}</details>`).join('');
+}
 function stage(i){
   const s=stages[i];
   return wrap(`<p class="micro" style="margin-top:24px">ETAPPE 0${i+1} · ${s.place.toUpperCase()}</p><h1>${s.name}</h1><p>${s.story}</p><section class="sheet"><h2>Getuigen &amp; bewijsstukken</h2><p>Open de verklaringen en vergelijk de details.</p>${evidence(s)}</section><section class="sheet"><h2>${s.question}</h2>${progress>i?`<p>✓ ${s.feedback}</p><a class="btn" href="#${i===2?'rapport':'etappe-'+(i+2)}">${i===2?'Naar je eindrapport':'Volgende etappe'}</a>`:s.answers.map((a,j)=>`<button class="choice" data-answer="${j}">${a}</button>`).join('')+'<p class="notice" role="status"></p><details><summary>Geef me een hint</summary><p>'+s.hint+'</p></details>'}</section>`);
